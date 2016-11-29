@@ -1,5 +1,5 @@
 import XCTest
-@testable import BignumTests
+@testable import BignumGMPTests
 
 XCTMain([
      testCase(BignumTests.allTests),
