@@ -349,9 +349,23 @@ public func %(lhs: BigInt, rhs: UInt) -> UInt {
 	return UInt(__gmpz_tdiv_r_ui(&r.mpz, &lhs.mpz, CUnsignedLong(rhs)))
 }
 
-/// Return (a + b) % m
+
+/// Non-negative modulo operation
+///
+/// - Parameters:
+///   - a: left hand side of the module operation
+///   - m: modulus
+/// - Returns: r := a % b such that 0 <= r < abs(m)
+public func nnmod(_ a: BigInt, _ m: BigInt) -> BigInt {
+	let r = BigInt()
+	__gmpz_mod(&r.mpz, &a.mpz, &m.mpz)
+	return r
+}
+
+
+/// Return the non-negative (a + b) % m
 public func mod_add(_ a: BigInt, _ b: BigInt, _ m: BigInt) -> BigInt {
-	return (a + b) % m
+	return nnmod((a + b), m)
 }
 
 /// Quick exponentiation/modulo algorithm.algorith.
