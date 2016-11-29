@@ -1,4 +1,5 @@
 import XCTest
+import Foundation
 @testable import Bignum
 
 class BignumTests: XCTestCase {
@@ -93,13 +94,7 @@ class BignumTests: XCTestCase {
 		XCTAssertEqual(b2.hex, s2)
 	}
 
-	/// Test conversion from a 64 bit integer
-	func testUInt64() {
-		let i1 = UInt64(0x12345678abcdefab)
-		let b1 = 0x12345678abcdefab
-		XCTAssertEqual(b1.description, "\(i1)")
-	}
-
+	#if !os(Linux)
 	/// Test conversion from Data
 	func testFromData() {
 		let a: ContiguousArray<UInt8> = [ 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0x0f, 0x1e, 0x2d, 0x3c, 0x4b, 0x5c, 0x6b, 0x7a]
@@ -107,6 +102,7 @@ class BignumTests: XCTestCase {
 		let b = BigInt(data: d)
 		XCTAssertEqual(b.hex, "abcdef01234567890f1e2d3c4b5c6b7a")
 	}
+	#endif
 
 	/// Test conversion to Data
 	func testToData() {
@@ -118,6 +114,7 @@ class BignumTests: XCTestCase {
 		XCTAssertEqual(d.hexString, s)
 	}
 
+	#if !os(Linux)
 	func testPerformanceData() {
 		let a: ContiguousArray<UInt8> = [ 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0x0f, 0x1e, 0x2d, 0x3c, 0x4b, 0x5c, 0x6b, 0x7a]
 		let d = a.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: $0.count) }
@@ -130,6 +127,7 @@ class BignumTests: XCTestCase {
 		}
 		XCTAssertEqual(b[5].hex, "abcdef01234567890f1e2d3c4b5c6b7a")
 	}
+	#endif
 
 	/// Test modulo and nnmod()
 	func testMod() {
@@ -200,14 +198,11 @@ class BignumTests: XCTestCase {
 			("testUIntArithmetics", testUIntArithmetics),
 			("testSIntArithmetics", testSIntArithmetics),
 			("testBigIntHex",       testBigIntHex),
-			("testUInt64",			testUInt64),
-			("testFromData",		testFromData),
 			("testToData",			testToData),
 			("testMod",				testMod),
 			("testModAdd",			testModAdd),
 			("testModExp",			testModExp),
 			("testPerformanceModExp",	testPerformanceModExp),
-			("testPerformanceData",	testPerformanceData),
 		]
 	}
 }
