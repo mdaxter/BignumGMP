@@ -163,6 +163,13 @@ public extension BigInt {
 }
 
 // MARK: - Arithmetic operations
+/// Unary minus
+public prefix func -(i: BigInt) -> BigInt {
+	let r = BigInt()
+	__gmpz_neg(&r.mpz, &i.mpz)
+	return r
+}
+
 /// Add two `BigInt` numbers
 public func +(lhs: BigInt, rhs: BigInt) -> BigInt {
 	let r = BigInt()
