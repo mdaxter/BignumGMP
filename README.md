@@ -22,8 +22,8 @@ Install `gmp` via [Homebrew](http://brew.sh/):
 
 This library uses the [Swift Package Manager](https://swift.org/package-manager/).  To build and test use:
 
-	swift build -Xcc -I/usr/local/include -Xlinker -L/usr/local/lib
-	
+	swift build  -Xcc -I/usr/local/include -Xlinker -L/usr/local/lib
+	swift test   -Xcc -I/usr/local/include -Xlinker -L/usr/local/lib
 
 ## Limitations
 
