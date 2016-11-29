@@ -3,7 +3,7 @@ A Swift wrapper around the GNU Multiple Precision Arithmetic Library ([libgmp](h
 
 ## Prerequisites
 
-This package uses [CGMP](), which, in turn makes available [libgmp](https://gmplib.org/) for Swift.
+This package uses [CGMP](https://github.com/mdaxter/CGMP), which, in turn makes available [libgmp](https://gmplib.org/) for Swift.
 Therefore, prior to compiling, you need to have a copy of [libgmp](https://gmplib.org/) installed for your operating system.
 
 ### Linux
