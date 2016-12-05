@@ -1,6 +1,6 @@
 import XCTest
 import Foundation
-@testable import BignumGMP
+@testable import Bignum
 
 class BignumTests: XCTestCase {
 	/// Test simple arithmetics
