@@ -20,17 +20,27 @@ public extension BigInt {
 		//			return Data()
 		//		}
 		let lbytes = Int(GMP_LIMB_BITS / 8)
-		var data = Data(count: n * lbytes)
-		data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> Void in
-			let limbs = __gmpz_limbs_read(&mpz)!
-			var p = ptr
-			for i in (0..<n).reversed() {
-				for j in (0..<lbytes).reversed() {
-					p.pointee = UInt8((limbs[i] >> mp_limb_t(j*8)) & 0xff)
-					p += 1
-				}
+		let k = n * lbytes
+		let ptr = UnsafeMutablePointer<UInt8>.allocate(capacity: k)
+		let limbs = __gmpz_limbs_read(&mpz)!
+		var p = ptr
+		for i in (0..<n).reversed() {
+			for j in (0..<lbytes).reversed() {
+				p.pointee = UInt8((limbs[i] >> mp_limb_t(j*8)) & 0xff)
+				p += 1
 			}
 		}
+		//
+		// strip leading zero bytes
+		//
+		p = ptr
+		var l = k
+		for _ in 0..<k {
+			guard p.pointee == 0 else { break }
+			p += 1
+			l -= 1
+		}
+		let data = Data(bytesNoCopy: p, count: l, deallocator: .custom({ _, _ in ptr.deallocate(capacity: k)}))
 		return data
 	}
 

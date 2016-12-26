@@ -100,7 +100,13 @@ class BignumTests: XCTestCase {
 		let a: ContiguousArray<UInt8> = [ 0xab, 0xcd, 0xef, 0x01, 0x23, 0x45, 0x67, 0x89, 0x0f, 0x1e, 0x2d, 0x3c, 0x4b, 0x5c, 0x6b, 0x7a]
 		let d = a.withUnsafeBytes { Data(bytes: $0.baseAddress!, count: $0.count) }
 		let b = BigInt(data: d)
-		XCTAssertEqual(b.hex, "abcdef01234567890f1e2d3c4b5c6b7a")
+		XCTAssertEqual(b.hex.lowercased(), "abcdef01234567890f1e2d3c4b5c6b7a")
+		let z = Data()
+		let n = Bignum(data: z)
+		XCTAssertEqual(n, Bignum(0))
+		let f = Data(bytes: [5])
+		let g = Bignum(data: f)
+		XCTAssertEqual(g, Bignum("5"))
 	}
 	#endif
 
@@ -112,6 +118,11 @@ class BignumTests: XCTestCase {
 		let b = BigInt(data: d)
 		XCTAssertEqual(a, b)
 		XCTAssertEqual(d.hexString, s)
+		let c = Bignum(hex: "5")
+		let t = Data(bytes: [5])
+		XCTAssertEqual(c.data, t)
+		let z = Bignum(hex: "0")
+		XCTAssertEqual(z.data, Data())
 	}
 
 	#if !os(Linux)
